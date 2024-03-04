@@ -1,15 +1,23 @@
+import createActivity from './activities.js';
 "use strict";
 
-function main() {}
 
-function setActivity(){
-    let title = document.querySelector('').value;
-    let duration = document.querySelector('').value;
-    let desc = document.querySelector('').value;
-    let newActivity  = {
-        title: title,
-        duration: duration,
-        desc: desc
-    };
-    localStorage.setItem(newActivity.title, JSON.stringify(newActivity));
+function main() {
+    console.log(generateActivities());
 }
+
+///function to create a workout (doesnt work yet)
+function createWorkout(){
+    let workout = [];
+    let activities = JSON.parse(localStorage.getItem('activities'));
+    
+}  
+
+//function to generate predefined activities
+function generateActivities() {
+    createActivity('Running',  30, 'Running on the spot');
+    createActivity('Push-ups', 10, 'Push-ups');
+    createActivity('Sit-ups',  10, 'Sit-ups');
+ }
+
+main();
