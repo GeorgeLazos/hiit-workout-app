@@ -16,6 +16,7 @@ app.get('/startWorkout', (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'client', 'pages', 'startWorkout.html'));
 });
 
+
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });
