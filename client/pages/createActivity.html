@@ -2,12 +2,16 @@
 <html>
 <head>
     <title>Create Activity</title>
-    <script src="/scripts/index.js" defer></script>
+    <script src="../scripts/activities.js" defer></script>
 </head>
 <body>
     <input type="text" id="actTitle" name="actTitle" placeholder="Enter Activity title here">
     <input type="number" id="actDuration" name="actDuration" placeholder="Duration">
     <input type="text" id="actDesc" name="actDesc" placeholder="Enter Activity descriction here">
-    <input type="button" value="Create Activity" onclick="createActivityFromInput()">
+    <input type="button" value="Create Activity" id="activitySubmit">
+    <input type="button" value="Back" id="back" onclick="window.location.href = '../pages/index.html'">
+    <br>
+    <label for="activityList">All Activities:</label>
+    <div id="activityList"></div>
 </body>
 </html>

@@ -3,27 +3,25 @@
 
 <head>
     <title>Start Workout</title>
-    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
     <h1>Choose Workout</h1>
-    <div class="workoutList">
-        <label for="workoutSelect">Select Workout:</label>
-        <select id="workoutSelect" onchange="">
-            <option value="preset1">Preset Workout 1</option>
-            <option value="preset2">Preset Workout 2</option>
-        </select>
-    </div>
     <div>
-        <label for="difHigh"></label>
-        <input type="radio" id="difHigh" name="difLvl" value="DifHigh"> High
-
-        <label for="difMid"></label>
-        <input type="radio" id="difMid" name="difLvl" value="DifMedium" checked> Medium
+        <label for="workoutList">Select Workout:</label>
+        <select id="workoutList" onchange="">
+            <option value="preset1">Preset Workout 1</option>
+        </select>
         
-        <label for="difEasy"></label>
-        <input type="radio" id="difEasy" name="difLvl" value="DifEasy"> Easy
+        <label for="difHigh">High</label>
+        <input type="radio" id="difHigh" class="difficulty" name="difficulty" value="DifHigh">
+
+        <label for="difMid">Medium</label>
+        <input type="radio" id="difMid" class="difficulty" name="difficulty" value="DifMedium" checked> 
+        
+        <label for="difEasy">Easy</label>
+        <input type="radio" id="difEasy" class="difficulty" name="difficulty" value="DifEasy"> 
+        <input type="button" value="Back" id="back" onclick="window.location.href = '../pages/index.html'">
     </div>
 </body>
 </html>
