@@ -7,7 +7,26 @@ const port = 8080;
 // Serve static files from the 'client' folder
 app.use(express.static(path.join(__dirname, '..', 'client')));
 
-// Route for the index.html page
+
+
+// Define a route to get all activities
+let allActivities = [];
+
+function getActivities(req, res) {
+  res.json(allActivities);
+}
+
+app.get('/activities', getActivities);
+
+
+
+// Start the server, announcing the port number
+app.listen(port, () => {
+  console.log(`Server is running at http://localhost:${port}`);
+});
+
+
+// custom routes
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'client', 'pages', 'index.html'));
 });
@@ -22,16 +41,4 @@ app.get('/createWorkout', (req, res) => {
 
 app.get('/createActivity', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'client', 'pages', 'createActivity.html'));
-});
-
-let allActivities = [];
-
-function getActivities(req, res) {
-  res.json(allActivities);
-}
-
-app.get('/activities', getActivities);
-
-app.listen(port, () => {
-  console.log(`Server is running at http://localhost:${port}`);
 });

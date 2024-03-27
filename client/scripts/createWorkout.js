@@ -17,7 +17,6 @@ function createWorkoutFromInput() {
     console.log(allWorkouts);
 }
 
-
 function displayActivities(activityList) {
     //create a template for the list of activities
 }
@@ -38,4 +37,8 @@ function displayWorkouts(workout) {
 
 function init() {
     document.querySelector('#createActivity').addEventListener('click', () => {window.location= 'createActivity';});
+    document.querySelector('#back').addEventListener('click', () => {window.location= '/';});
 }
+
+init();
+   
