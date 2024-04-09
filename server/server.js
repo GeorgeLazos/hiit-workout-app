@@ -16,7 +16,12 @@ function getActivities(req, res) {
   res.json(allActivities);
 }
 
-app.get('/activities', getActivities);
+function postActivities(req, res) {
+  allActivities.append(req.body.msg);
+  res.json(allActivities);
+}
+
+//app.get('/activities', getActivities);
 
 
 
@@ -25,12 +30,13 @@ app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });
 
-
-// custom routes
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'client', 'pages', 'index.html'));
 });
 
+//app.post('/activities', postActivities);
+
+// custom routes
 app.get('/startWorkout', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'client', 'pages', 'startWorkout.html'));
 });

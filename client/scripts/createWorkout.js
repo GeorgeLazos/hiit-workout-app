@@ -1,26 +1,3 @@
-function createWorkout() {
-    const newWorkout  = {
-        title: title,
-        ativities: activities,
-        desc: desc,
-    };
-    displayWorkouts(newWorkout);
-    return newWorkout;
-}
-
-function createWorkoutFromInput() {
-    let allWorkouts = [];
-    const title = document.querySelector('#workoutTitle').value;
-    const actList = document.querySelector('#activityList').value;
-    const desc = document.querySelector('#workoutDesc').value;
-    allWorkouts.push(createWorkout(title, actList, desc));
-    console.log(allWorkouts);
-}
-
-function displayActivities(activityList) {
-    //create a template for the list of activities
-}
-
 function displayWorkouts(workout) {
     const workoutList = document.createElement('div');
 
@@ -35,10 +12,39 @@ function displayWorkouts(workout) {
     div.append(workoutList);
 }
 
-function init() {
-    document.querySelector('#createActivity').addEventListener('click', () => {window.location= 'createActivity';});
-    document.querySelector('#back').addEventListener('click', () => {window.location= '/';});
+function createWorkout(title, activities, desc) {
+    const newWorkout  = {
+        title: title,
+        ativities: activities,
+        desc: desc,
+    };
+    displayWorkouts(newWorkout);
+    return newWorkout;
 }
 
+function createWorkoutFromInput() {
+    const title = el.workoutTitle.value;
+    const actList = el.activityList.value;
+    const desc = el.workoutDesc.value;
+    allWorkouts.push(createWorkout(title, actList, desc));
+    console.log(allWorkouts);
+}
+
+function prepareHandles() {
+    el.createActivity = document.querySelector('#createActivity');
+    el.back = document.querySelector('#back');
+    el.workoutTitle = document.querySelector('#workoutTitle');
+    el.activityList = document.querySelector('#activityList');
+    el.workoutDesc = document.querySelector('#workoutDesc');
+}
+
+function init() {
+    prepareHandles();
+    el.createActivity.addEventListener('click', () => {window.location= 'createActivity';});
+    el.back.addEventListener('click', () => {window.location= '/';});
+}
+
+const allWorkouts = [];
+const el = {};
 init();
    
