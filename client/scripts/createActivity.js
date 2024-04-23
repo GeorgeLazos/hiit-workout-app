@@ -21,6 +21,7 @@ function displayActivity(activity) {
 
 //Check if activity has any input errors
 function checkError(title, duration) {
+
     if (title === '') {
         el.error.textContent = 'Error: Activity does not have a title';
         return true;
@@ -33,45 +34,67 @@ function checkError(title, duration) {
         el.error.textContent = 'Error: Duration must be a non-negative number';
         return true;
     }
+    if (el.allActivities.some(activity => activity.title === title)) {
+        el.error.textContent = 'Error: Activity already exists';
+        return true;
+    }
     el.error.textContent = '';
     return false;
 }
 
+//funtion to sendActivities
+async function sendActivitiesToServer(activity) {
+    el.allActivities.push(activity);
+    const payload = activity;
+    console.log('Payload', payload);
+
+    const response = await fetch('activities', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      
+    if (!response.ok) {
+        console.log('Failed to send workout to server');
+    }
+}
+
 //function to create an activity
-function createActivity(allActivities, title, duration, desc){
+function createActivity(title, duration, desc){
+    if(checkError(title, duration)) {
+        console.log('Error: Activity not created');
+        return;
+    }
     const newActivity  = {
         title: title,
         duration: duration,
         desc: desc,
     };
+    sendActivitiesToServer(newActivity);
     displayActivity(newActivity);
-    allActivities.push(newActivity);
+    el.allActivities.push(newActivity);
 }
 
 //function to create an activity from input of user
-function createActivityFromInput(allActivities) {
+function createActivityFromInput() {
     const title = el.actTitle.value;
     const duration = el.actDuration.value;
     const desc = el.actDesc.value;
     if (!checkError(title, duration, desc)) {
-        createActivity(allActivities, title, duration, desc);
+        createActivity(title, duration, desc);
     }
 }
 
-//function to load default activities
-function loadDefaultActivities(allActivities) {
-    createActivity(allActivities, 'Push-Ups', '30', 'Trains chest, shoulders, and triceps');
-    createActivity(allActivities, 'Crunches', '30', 'Trains abs');
-    createActivity(allActivities, 'Plank', '60', 'Trains core muscles');
-    createActivity(allActivities, 'Jumping-Jacks', '30', 'Warm-up exercise');
-    createActivity(allActivities, 'Squats', '30', 'Trains legs');
-    createActivity(allActivities, 'Lunges', '30', 'Trains legs');
+//function to add event listeners
+function addEventListeners() {
+    el.submit.addEventListener('click', () => createActivityFromInput());
+    el.back.addEventListener('click', () => { window.location.href = '/';});
+    el.createWorkout.addEventListener('click', () => { window.location = '/createWorkout';});
 }
 
-//function to add event listeners
-function addEventListeners(allActivities) {
-    el.submit.addEventListener('click', () => createActivityFromInput(allActivities));
-    el.back.addEventListener('click', () => { window.location.href = '/';});
+//function to display all activities
+function displayAllActivities() {
+    el.allActivities.forEach(activity => displayActivity(activity));
 }
 
 //function to prepare handles
@@ -82,40 +105,27 @@ function prepareHandles() {
     el.actTitle = document.querySelector('#actTitle');
     el.actDuration = document.querySelector('#actDuration');
     el.actDesc = document.querySelector('#actDesc');
+    el.createWorkout = document.querySelector('#createWorkout');
 }
-
-//function to initialize the page
-async function init() {
-    const allActivities = [];
-    loadDefaultActivities(allActivities);
-    prepareHandles();
-    addEventListeners(allActivities);
-}
-
-const el = {};
-init();
-
-//Not being used (for now)
 
 //function to load all existing activities
 async function loadActivities() {  
     const response = await fetch('activities');
-    let allActivities;
     if (response.ok) {
-        allActivities = await response.json();
+        const allActivities = await response.json();
+        console.log('All activities', allActivities);
         return allActivities;
     } else {
         console.log('failed to load activities');} 
 }
 
-//funtion to sendActivities
-async function sendActivities(activities) {
-    const payload = activities;
-    console.log('Payload', payload);
-
-    const response = await fetch('activities', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      });
+//function to initialize the page
+async function init() {
+    el.allActivities = await loadActivities();
+    prepareHandles();
+    displayAllActivities();
+    addEventListeners();
 }
+
+const el = {};
+init();
