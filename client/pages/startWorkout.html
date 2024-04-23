@@ -3,30 +3,32 @@
 
 <head>
     <title>Start Workout</title>
-    <link rel="stylesheet" href="style.css">
+    <script src="../scripts/startWorkout.js" defer></script>
 </head>
 
 <body>
     <h1>Choose Workout</h1>
-    <div class="workoutList">
-        <label for="workoutSelect">Select Workout:</label>
-        <select id="workoutSelect" onchange="">
-            <option value="preset1">Preset Workout 1</option>
-            <option value="preset2">Preset Workout 2</option>
-        </select>
-    </div>
     <div>
-        <label for="difHigh">
-            <input type="radio" id="difHigh" name="difLvl" value="DifHigh"> High
-        </label>
 
-        <label for="difMid">
-            <input type="radio" id="difMid" name="difLvl" value="DifMedium"> Medium
-        </label>
+        <label for="workoutList">Select Workout:</label>
+        <select id="workoutList" onchange="">
+            <option value="preset1">Preset Workout 1</option>
+        </select>
+        
 
-        <label for="difEasy">
-            <input type="radio" id="difEasy" name="difLvl" value="DifEasy"> Easy
-        </label>
+        <label for="difHigh">Hard</label>
+        <input type="radio" id="difHigh" class="difficulty" name="difficulty" value="3">
+
+        <label for="difMid">Medium</label>
+        <input type="radio" id="difMid" class="difficulty" name="difficulty" value="2" checked> 
+        
+        <label for="difEasy">Easy</label>
+        <input type="radio" id="difEasy" class="difficulty" name="difficulty" value="1"> 
+
+
+        <input type="button" value="Start Workout" id="start">
+        <input type="button" value="Back to Menu" id="back">
+        
     </div>
 </body>
 </html>

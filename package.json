@@ -1,11 +1,15 @@
 {
-  "name": "up2106696",
+  "name": "up2106696-web-cw",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
+    "start": "cd server && node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC"
+  "author": "up2106696",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.3"
+  }
 }

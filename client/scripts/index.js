@@ -1,15 +1,7 @@
-"use strict";
-
-function main() {}
-
-function setActivity(){
-    let title = document.querySelector('').value;
-    let duration = document.querySelector('').value;
-    let desc = document.querySelector('').value;
-    let newActivity  = {
-        title: title,
-        duration: duration,
-        desc: desc
-    };
-    localStorage.setItem(newActivity.title, JSON.stringify(newActivity));
+function init() {
+    document.querySelector('#startWorkout').addEventListener('click', () => {window.location = 'startWorkout';});
+    document.querySelector('#createWorkout').addEventListener('click', () => {window.location = 'createWorkout';});
+    document.querySelector('#createActivity').addEventListener('click', () => {window.location = 'createActivity';});
 }
+
+init();
