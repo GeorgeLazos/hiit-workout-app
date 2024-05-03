@@ -4,7 +4,7 @@
 function displayActivity(activity) {
     const newActivity = document.createElement('div');
 
-    const title = document.createElement('p');
+    const title = document.createElement('h3');
     title.textContent = activity.title;
 
     const duration = document.createElement('p');
@@ -13,39 +13,20 @@ function displayActivity(activity) {
     const desc = document.createElement('p');
     desc.textContent = activity.desc;
 
-    newActivity.append(title, duration, desc);
+    const deleteButton = document.createElement('button');
+    deleteButton.textContent = 'Delete';
+    deleteButton.addEventListener('click', () => {
+        deleteActivity(activity);
+        newActivity.remove();
+    });
 
-    const div = document.querySelector('#activityList');;
-    div.append(newActivity);
-}
-
-//Check if activity has any input errors
-function checkError(title, duration) {
-
-    if (title === '') {
-        el.error.textContent = 'Error: Activity does not have a title';
-        return true;
-    }
-    if (duration === '') {
-        el.error.textContent = 'Error: Activity does not have a duration';
-        return true;
-    }
-    if (isNaN(duration) || duration < 0) {
-        el.error.textContent = 'Error: Duration must be a non-negative number';
-        return true;
-    }
-    if (el.allActivities.some(activity => activity.title === title)) {
-        el.error.textContent = 'Error: Activity already exists';
-        return true;
-    }
-    el.error.textContent = '';
-    return false;
+    newActivity.append(title, duration, desc, deleteButton);
+    el.activityList.append(newActivity);
 }
 
 //funtion to sendActivities
-async function sendActivitiesToServer(activity) {
-    el.allActivities.push(activity);
-    const payload = activity;
+async function sendActivitiesToServer() {
+    const payload = el.allActivities;
     console.log('Payload', payload);
 
     const response = await fetch('activities', {
@@ -59,6 +40,21 @@ async function sendActivitiesToServer(activity) {
     }
 }
 
+//function to add an activity to allActivities
+function addActivity(activity) {
+    el.allActivities.push(activity);
+    sendActivitiesToServer();
+    console.log('Activity added', activity);
+
+}
+
+//function to delete an activity from allActivities
+function deleteActivity(activity) {
+    el.allActivities = el.allActivities.filter(act => act !== activity);
+    sendActivitiesToServer();
+    console.log('Activity deleted', activity);
+}
+
 //function to create an activity
 function createActivity(title, duration, desc){
     if(checkError(title, duration)) {
@@ -70,18 +66,47 @@ function createActivity(title, duration, desc){
         duration: duration,
         desc: desc,
     };
-    sendActivitiesToServer(newActivity);
+    addActivity(newActivity);
     displayActivity(newActivity);
-    el.allActivities.push(newActivity);
+}
+
+//Check if activity has any input errors
+function checkError(title, duration) {
+    el.error.style.color = 'red';
+
+    if (title === '') {
+        el.error.textContent = 'Error: Activity does not have a title';
+        return true;
+    }
+    if (duration === '') {
+        el.error.textContent = 'Error: Activity does not have a duration';
+        return true;
+    }
+    if (isNaN(duration) || duration <= 0) {
+        el.error.textContent = 'Error: Duration must be a positive number';
+        return true;
+    }
+    if (el.allActivities.some(activity => activity.title === title)) {
+        el.error.textContent = 'Error: Activity already exists';
+        return true;
+    }
+    el.error.textContent = '';
+    return false;
 }
 
 //function to create an activity from input of user
 function createActivityFromInput() {
+    el.error.textContent = '';
     const title = el.actTitle.value;
     const duration = el.actDuration.value;
     const desc = el.actDesc.value;
     if (!checkError(title, duration, desc)) {
         createActivity(title, duration, desc);
+        el.error.style.color = 'green';
+        el.actTitle.value = '';
+        el.actDuration.value = '';
+        el.actDesc.value = '';
+        el.error.textContent = 'Activity created successfully';
     }
 }
 
@@ -92,13 +117,25 @@ function addEventListeners() {
     el.createWorkout.addEventListener('click', () => { window.location = '/createWorkout';});
 }
 
-//function to display all activities
+//function to display allactivities
 function displayAllActivities() {
     el.allActivities.forEach(activity => displayActivity(activity));
 }
 
+//function to load allactivities
+async function loadActivities() {  
+    const response = await fetch('activities');
+    if (response.ok) {
+        const allActivities = await response.json();
+        console.log('All activities recieved', allActivities);
+        return allActivities;
+    } else {
+        console.log('failed to load activities');} 
+}
+
 //function to prepare handles
-function prepareHandles() {
+async function prepareHandles() {
+    el.allActivities = await loadActivities();
     el.submit = document.querySelector('#activitySubmit');
     el.back = document.querySelector('#back');
     el.error = document.querySelector('#error');
@@ -106,26 +143,17 @@ function prepareHandles() {
     el.actDuration = document.querySelector('#actDuration');
     el.actDesc = document.querySelector('#actDesc');
     el.createWorkout = document.querySelector('#createWorkout');
-}
-
-//function to load all existing activities
-async function loadActivities() {  
-    const response = await fetch('activities');
-    if (response.ok) {
-        const allActivities = await response.json();
-        console.log('All activities', allActivities);
-        return allActivities;
-    } else {
-        console.log('failed to load activities');} 
+    el.activityList = document.querySelector('#activityList');
 }
 
 //function to initialize the page
 async function init() {
-    el.allActivities = await loadActivities();
-    prepareHandles();
+    await prepareHandles();
     displayAllActivities();
     addEventListeners();
 }
 
 const el = {};
 init();
+
+//*allActivities : An array of all activities

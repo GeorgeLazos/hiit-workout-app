@@ -11,5 +11,9 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.18.3"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "eslint-config-portsoc": "^1.0.1"
   }
 }

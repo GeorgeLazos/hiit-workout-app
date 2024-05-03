@@ -1,54 +1,124 @@
-import * as activities from 'createActivity.js'
+"use strict";
 
-// Function to start the timer
-function startTimer(activity, difficulty) {
-    const actTitle = activity.title;
-    const actTime = activity.duration;
-    const actdesc = activity.desc;
+async function sendSelectedWorkoutToServer(workout, difficulty) {
+    const payload = {workout : workout, difficulty : difficulty};
+    console.log('Payload', payload);
 
-    const actualTime = actTime + (difficulty * 3);
-    const restTime = 35 - (difficulty * 5);
-    el.desc.textContent = (`Well done!, Next ${actTitle}`);
-    for (let i = 0; i < restTime; i++) {
-        setTimeout(() => {el.time.textContent = restTime - i;}, 1000); 
-    }
-    el.desc.textContent = (`${actTitle}`);
-    for (let i = 0; i < actualTime; i++) {
-        setTimeout(() => {el.time.textContent = actualTime - i;}, 1000); 
+    const response = await fetch('/selectedWorkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+    if (!response.ok) {
+        console.log('Failed to send selected workout to server');
     }
 }
-    
-//function to select each activity in the workout list
-function startWorkout() {
-    const workout = el.workout.value;
-    const difficulty = el.difficulty.value;
-    for (const activity of workout) {
-        //Shouldnt it wait for the activity to finish before starting the next one?
-        startTimer(activity, difficulty);
+
+//function to check for errors when starting a workout
+function checkError() {
+    el.error.textContent = '';
+    if (el.workout.value === '') {
+        el.error.textContent = 'Error: No workout selected';
+        return true;
+    } else if (el.difficulty.value === '') {
+        el.error.textContent = 'Error: No difficulty selected';
+        return true;
+    } else {
+    return false;
     }
+}
+
+//function to select each activity in the workout list
+async function startWorkout() {
+    if (checkError) {
+        const workout = el.workout;
+        const difficulty = el.difficulty.value;
+        await sendSelectedWorkoutToServer(workout, difficulty);
+        window.location.href = '/timer';
+    }};
+
+//function to display the selected workout
+function displaySelectedWorkout() {
+    el.workout = el.allWorkouts.find(workout => workout.title === el.workoutList.value);
+    console.log('Selected workout', el.workout);
+    
+    const div = document.createElement('div');
+
+    const title = document.createElement('h3');
+    title.textContent = el.workout.title;
+
+    const desc = document.createElement('p');
+    desc.textContent = el.workout.desc
+
+    const activities = document.createElement('ol');
+    el.workout.activities.forEach(activity => {
+        const act = document.createElement('li');
+        act.textContent = activity.title;
+        activities.append(act);
+    });
+    el.workoutList.addEventListener('change', () => div.remove());
+    div.append(title, desc, activities);
+    el.workoutinfo.append(div);
+}
+
+//function to display all workout options
+function displayWorkoutOptions() {
+    el.allWorkouts.forEach(workout => {
+        const newWorkout = document.createElement('option');
+        newWorkout.textContent = workout.title;
+        el.workoutList.appendChild(newWorkout);
+    });
 }
 
 //function to add event listeners
 function addEventListeners() {
+    el.start.addEventListener('click', () => startWorkout());
+    el.workoutList.addEventListener('change', () => displaySelectedWorkout());
     el.back.addEventListener('click', () => {window.location = '/';});
-    el.start.addEventListener('click',() => startWorkout());
+    el.start.addEventListener('click',() => {window.location = '/timer';});
+    document.querySelector('#createWorkout').addEventListener('click', () => {window.location = 'createWorkout';});
+    document.querySelector('#createActivity').addEventListener('click', () => {window.location = 'createActivity';});
+}
+
+//Function to load activities from server
+async function loadWorkouts() {  
+    const response = await fetch('workouts');
+    if (response.ok) {
+        const allWorkouts = await response.json();
+        console.log('All Workouts recieved', allWorkouts);
+        return allWorkouts;
+    } else {
+        console.log('failed to load workouts');} 
+}
+
+//function to load all existing activities
+async function loadActivities() {  
+    const response = await fetch('activities');
+    if (response.ok) {
+        const allActivities = await response.json();
+        console.log('All activities recieved', allActivities);
+        return allActivities;
+    } else {
+        console.log('failed to load activities');} 
 }
 
 //function to prepare handles
-function prepareHandles() {
+async function prepareHandles() {
+    el.allActivities = await loadActivities();
+    el.allWorkouts = await loadWorkouts();
+    el.workoutinfo = document.querySelector('#workoutInfo');
+    el.error = document.querySelector('#error');
     el.back = document.querySelector('#back');
-    el.difficulty = document.querySelector('.difficulty');
-    el.workout = document.querySelector('#workoutList');
-    el.time = document.querySelector('#time');
-    el.desc = document.querySelector('#description');
+    el.difficulty = document.querySelector('.difficulty:checked');
+    el.workoutList = document.querySelector('#workoutList');
     el.start = document.querySelector('#start');
 }
 
 //function to initialize the page
-function init() {
-    activities.loadDefaultActivities();
-    prepareHandles();
-    addEventListeners();
+async function init() {
+        await prepareHandles();
+        await displayWorkoutOptions();
+        addEventListeners();
 }
 
 const el = {};
