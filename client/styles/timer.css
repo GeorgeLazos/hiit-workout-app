@@ -1,6 +1,35 @@
+:root {
+    font-family: sans-serif;
+    text-align: center;
+    
+    
+    --pad: 1rem;
+    --rad: calc(var(--pad) / 2);
+    --halfrad: calc(var(--rad) / 2);
+}
+
 body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     justify-content: center;
+    align-items: center;
+    background-color: #cccccc;
+    padding: 20px;
+    color: #333;
+}
+
+h1 {
+    text-align: center;
+    color: #000000;
+    margin-bottom: 100px;
+}
+
+#pause, #back {
+    display: inline-block;
+    margin: 0 10px;
+    padding: 10px 20px;
+    background-color: #5C6BC0;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
 }

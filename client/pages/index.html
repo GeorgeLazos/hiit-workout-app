@@ -1,40 +1,52 @@
 <!DOCTYPE html>
-<html>
 
+<html>
 <head>
     <title>Start Workout</title>
     <script src="../scripts/startWorkout.js" defer></script>
+    <link rel="stylesheet" href="../styles/index.css">
+    <link rel="icon" href="../images/icon.ico">
 </head>
 
 <body>
     <div>
     <h1>My HIT app</h1>
-    <input type="button" value="Create Workout" id="createWorkout" >
     <input type="button" value="Create Activity" id="createActivity">
+    <input type="button" value="Create Workout" id="createWorkout" >
+    <input type="button" value="Past Workouts" id="WorkoutLog">
     </div>
-    
+    <hr>
     <div>
-        <h3>Choose Workout</h3>
+        <h3>Start a Workout</h3>
         <select id="workoutList">
-            <option value="0">Select Workout</option>
+            <option value="def">Select Workout</option>
         </select>
         
-        
-        <label for="difHigh">Hard</label>
-        <input type="radio" id="difHigh" class="difficulty" name="difficulty" value="1">
+        <div class="dif"> 
+            <label for="difHigh" class="difLabel">
+                Hard
+                <input type="radio" id="difHigh" class="difficulty" name="difficulty" value="1">
+            </label>
+        </div>
 
-        <label for="difMid">Medium</label>
-        <input type="radio" id="difMid" class="difficulty" name="difficulty" value="0" checked> 
-        
-        <label for="difEasy">Easy</label>
-        <input type="radio" id="difEasy" class="difficulty" name="difficulty" value="-1"> 
+        <div class="dif">
+            <label for="difMid" class="difLabel">
+                Medium
+                <input type="radio" id="difMid" class="difficulty" name="difficulty" value="0" checked> 
+            </label>
+        </div>
 
+        <div class="dif">
+            <label for="difEasy" class="difLabel">
+                Easy
+                <input type="radio" id="difEasy" class="difficulty" name="difficulty" value="-1"> 
+            </label>
+        </div>
 
+        <div id="workoutInfo"></div>
         <input type="button" value="Start Workout" id="start">
-        <input type="button" value="Back to Menu" id="back">
         <p id="error" style="color: red;"></p>
         <div id="workoutInfo"></div>
-        
     </div>
 </body>
 </html>

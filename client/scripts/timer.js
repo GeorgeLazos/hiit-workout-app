@@ -1,112 +1,119 @@
-"use strict";
+'use strict';
+
+// Global variables
+const gl = {};
 
 // Handle the timer functionality of the workout
 function delay(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+  return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 // Function to pause the timer
 function pause() {
-    el.pauseFlag = !el.pauseFlag;
-    console.log('pause flag', el.pauseFlag);
-    if (el.pauseFlag) {
-        el.pauseButton.value = 'Resume';
-        el.desc.textContent = 'Paused';
-        console.log('paused');
-    } else {
-        el.desc.textContent = `${el.actTitle}`;
-        el.pauseButton.value = 'Pause';
-        el.time.textContent = el.actualTime;
-        console.log('resumed');
-    }
+  gl.pauseFlag = !gl.pauseFlag;
+  console.log('pause flag', gl.pauseFlag);
+  if (gl.pauseFlag) {
+    gl.pauseButton.value = 'Resume';
+    gl.desc.textContent = 'Paused';
+    console.log('paused');
+  } else {
+    gl.desc.textContent = `${gl.actTitle}`;
+    gl.pauseButton.value = 'Pause';
+    gl.time.textContent = gl.actualTime;
+    console.log('resumed');
+  }
 }
 
 // Function to run the Timer
 function myCounter() {
-    if (el.actualTime <= 0) {
-        el.activityFlag = false;
-        console.log('Activity done');
-        clearInterval(el.counter);
-    } else if (!el.pauseFlag) {
-        el.time.textContent = el.actualTime;
-        el.actualTime--;
-    }
-    el.time.textContent = el.actualTime;
+  if (gl.actualTime <= 0) {
+    gl.activityFlag = false;
+    console.log('Activity done');
+    clearInterval(gl.counter);
+  } else if (!gl.pauseFlag) {
+    gl.time.textContent = gl.actualTime;
+    gl.actualTime--;
+  }
+  gl.time.textContent = gl.actualTime;
 }
 
 // Function to start the timer
-async function startTimer(activity, difficulty) {
-    console.log('loaded activity', activity.title);
-    el.actTitle = activity.title;
-    const actTime = activity.duration;
-    const actdesc = activity.desc;
+function startTimer(activity, difficulty) {
+  console.log('loaded activity', activity.title);
+  gl.actTitle = activity.title;
+  const actTime = activity.duration;
+  // const actdesc = activity.desc;
 
-    el.actualTime = actTime + (difficulty * 30);
-    el.time.textContent = el.actualTime;
-    el.desc.textContent = (`${el.actTitle}`);
+  gl.actualTime = actTime + (difficulty * 30);
+  gl.time.textContent = gl.actualTime;
+  gl.desc.textContent = (`${gl.actTitle}`);
 
-    el.pauseButton.addEventListener('click', pause);
-    el.counter = setInterval(myCounter, 1000);
+  gl.pauseButton.addEventListener('click', pause);
+  gl.counter = setInterval(myCounter, 1000);
 }
 
 // Function to start and run the workout
 async function initialiseActivity() {
-    el.desc.textContent = 'Get ready to start your Workout!!!';
-    el.time.textContent = '5';
-    for (let i = 0; i <= 5; i++) {
-        el.time.textContent = `${5-i}`
-        await delay(1000);
-        if (i === 4) {
-            el.desc.textContent = 'Start';
-        }
+  gl.desc.textContent = 'Get ready to start your Workout!!!';
+  gl.time.textContent = '5';
+  for (let i = 0; i <= 5; i++) {
+    gl.time.textContent = `${5 - i}`;
+    await delay(1000);
+    if (i === 4) {
+      gl.desc.textContent = 'Start';
     }
+  }
 
-    el.pauseButton.style.display = 'block';
-    el.activityFlag = false;
-     for (const activity of el.workout.activities) {
-        while (el.activityFlag) {await delay(1000);}
-        el.activityFlag = true;
-        await startTimer(activity, el.difficulty);
-        }
+  gl.pauseButton.style.display = 'inline-block';
+  gl.activityFlag = false;
+  for (const activity of gl.workout.activities) {
+    while (gl.activityFlag) { await delay(1000); }
+    gl.activityFlag = true;
+    await startTimer(activity, gl.difficulty);
+  }
 }
 
-//Function to addEventListeners
+// Function to addEventListeners
 function addEventListeners() {
-    el.back.addEventListener('click', () => { window.location.href = '/startWorkout';});
+  gl.back.addEventListener('click', () => {
+    if (confirm('Are you sure you want to stop this workout?')) {
+      window.location.href = '/';
+    }
+  });
 }
 
-//Function to load selected workout from server
+// Function to load selected workout from server
 async function loadSelecedWorkout() {
-    const response = await fetch('/selectedWorkout');
-    if (response.ok) {
-        const allWorkouts = await response.json();
-        console.log('Selected Workout recieved', allWorkouts);
-        return allWorkouts;
-    } else {
-        console.log('failed to load workout');} 
+  const response = await fetch('/selectedWorkout');
+  if (response.ok) {
+    const allWorkouts = await response.json();
+    console.log('Selected Workout recieved', allWorkouts);
+    return allWorkouts;
+  } else {
+    console.log('failed to load workout');
+  }
 }
 
-//Function to prepare handles
+// Function to prepare handles
 async function prepareHandles() {
-    el.selectedWorkout = await loadSelecedWorkout();
-    el.pauseFlag = false;
-    el.workout = el.selectedWorkout.workout;
-    el.difficulty = el.selectedWorkout.difficulty;
-    console.log('workout', el.selectedWorkout.workout);
-    el.time = document.querySelector('#time');
-    el.pauseButton = document.querySelector('#pause');
-    el.desc = document.querySelector('#desc');
-    el.back = document.querySelector('#back');
+  gl.selectedWorkout = await loadSelecedWorkout();
+  gl.pauseFlag = false;
+  gl.workout = gl.selectedWorkout.workout;
+  gl.difficulty = gl.selectedWorkout.difficulty;
+  console.log('workout', gl.selectedWorkout.workout);
+  gl.time = document.querySelector('#time');
+  gl.pauseButton = document.querySelector('#pause');
+  gl.desc = document.querySelector('#desc');
+  gl.back = document.querySelector('#back');
 }
 
-//Function to initialize the page
+// Function to initialize the page
 async function init() {
-    //debugger;
-    await prepareHandles();
-    await addEventListeners();
-    el.pauseButton.style.display = 'none';
-    initialiseActivity();
+  // debugger;
+  await prepareHandles();
+  await addEventListeners();
+  gl.pauseButton.style.display = 'none';
+  initialiseActivity();
 }
 
-const el = {};
 init();
