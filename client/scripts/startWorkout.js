@@ -3,6 +3,7 @@
 // Global variables
 const gl = {};
 
+// function to send selected workout to server
 async function sendSelectedWorkoutToServer(workout, difficulty) {
   const payload = { workout, difficulty };
   console.log('Payload', payload);
@@ -17,25 +18,34 @@ async function sendSelectedWorkoutToServer(workout, difficulty) {
   }
 }
 
+// function to add started workouts to workoutLog and saved to local storage
+function addToWorkoutLog(workout) {
+  const workoutLog = JSON.parse(localStorage.getItem('workoutLog')) || [];
+  workoutLog.push(workout);
+  localStorage.setItem('workoutLog', JSON.stringify(workoutLog));
+}
+
 // function to check for errors when starting a workout
 function checkError() {
   gl.error.textContent = '';
-  if (gl.workout.value === '') {
+  console.log(gl.workoutList.value);
+  if (gl.workoutList.value === 'def') {
     gl.error.textContent = 'Error: No workout selected';
-    return true;
+    return false;
   } else if (gl.difficulty.value === '') {
     gl.error.textContent = 'Error: No difficulty selected';
-    return true;
-  } else {
     return false;
+  } else {
+    return true;
   }
 }
 
 // function to select each activity in the workout list
 async function startWorkout() {
-  if (checkError) {
+  if (checkError()) {
     const workout = gl.workout;
     const difficulty = gl.difficulty.value;
+    addToWorkoutLog(gl.workout);
     await sendSelectedWorkoutToServer(workout, difficulty);
     window.location.href = '/timer';
   }
@@ -43,6 +53,7 @@ async function startWorkout() {
 
 // function to display the selected workout
 function displaySelectedWorkout() {
+  gl.error.textContent = '';
   if (gl.workoutList.value === 'def') {
     gl.workoutInfo.style.display = 'none';
     console.log('No workout selected');
@@ -83,9 +94,9 @@ function displayWorkoutOptions() {
 function addEventListeners() {
   gl.start.addEventListener('click', () => startWorkout());
   gl.workoutList.addEventListener('change', () => displaySelectedWorkout());
-  gl.start.addEventListener('click', () => { window.location = '/timer'; });
   gl.createWorkout.addEventListener('click', () => { window.location = 'createWorkout'; });
   gl.createActivity.addEventListener('click', () => { window.location = 'createActivity'; });
+  gl.pastWorkouts.addEventListener('click', () => { window.location = 'workoutLog'; });
 }
 
 // Function to load activities from server
@@ -151,6 +162,7 @@ async function getAllActivitiesFromLocalStorage() {
 async function prepareHandles() {
   await getAllActivitiesFromLocalStorage();
   await getAllWorkoutsFromLocalStorage();
+  gl.pastWorkouts = document.querySelector('#pastWorkouts');
   gl.workoutInfo = document.querySelector('#workoutInfo');
   gl.workoutInfo.style.display = 'none';
   gl.error = document.querySelector('#error');

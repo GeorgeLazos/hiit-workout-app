@@ -9,30 +9,31 @@
 
 3. Install the npm dependencies in the terminal:
 
-   `npm install`
+   `npm install` and if needed `npm run setup`
 
 4. Start the application in the terminal:
 
     `npm start`
 
-5. Open you browser and go to:
+5. Open your browser and go to:
 
-    `http://localhost:3000`
+    `http://localhost:8080`
 
 
 ## Key features  
 
 ### Create Activity
-- Create an Activity :  You can create your own Activity from scratch by clicking on the "Create Activity" button. There you can create new activities that can be used in workouts  by inputing a name, duration  and optionally notes for the activity. In the same page you will find below a list of all activities that exist and the ability to delete them at will. 
+- Create an Activity :  You can create your own Activity from scratch by clicking on the "Create Activity" button. There you can create new activities that can be used in workouts  by inputing a name, duration  and optionally notes for the activity. In the same page you will find below a list of all activities that exist and the ability to delete them at will. Error Handling to ensure correct data are inputted by the user.
 
 ### Create a Workout3
 - Create a Workout :  You can create your own Workouts from scratch by clicking on the "Create Workout" button. There you can create new workouts by inputing a name, choosing some activities  and optionally notes for the workout. In the same page you will find below a list of all activities that exist and the ability to delete them at will. The user selects whitch activities he wants on his new Workout by clicking any activity button in the Activities section to add it to the workout, similarly he can click on any activity button displayied in the New Workout Section to remove it , i choose this design choice as it is simple and easy to use thus providing a better experiance for the user.
+Error Handling to ensure correct data are inputted by the user.
 
 ### Start a Workout
-- Start a Workouot : In the landing page is the Start a workout section there the user can select a workout and its difficulty(from 3 levels) and Press Start to begin the selected workout this will start the timer and take him to a seperate "timer page" where the user does the workout selected there he has the ability to pause or leave the workout whenever he wants. I decided to add the start Workout in the landing page as its the main feature of the application and i wanted to make access to it easy.
+- Start a Workouot : In the landing page is the Start a workout section there the user can select a workout and its difficulty(from 3 levels) and Press Start to begin the selected workout this will start the timer and take him to a seperate "timer page" where the user does the workout selected there he has the ability to pause or leave the workout whenever he wants. I decided to add the start Workout in the landing page as its the main feature of the application and i wanted to make access to it easy.Error Handling to ensure correct data are inputted by the user.
 
-### Input Handling
-- Input Handling
+### Past Workouts
+- Past Workouts : If the user clicks on the Past Workouts button in the main page he will be taken to another page where he will see a counter tracking the amount of workouts he has done and below a list of all Workouts done in order.I decided to add this feature as i think it motivates the user and enchances their experiance it is also a stepping stone and makes it easy to add rewards like medas for amount of workouts done
 
 ## AI
 In js I used AI for debugging mainly around the way the timer works with the setInterval() and the delay() fucntion in timer.js, i also used ai to further understand how to code in js with github copilots explain feature as this is my first attempt coding in js
@@ -86,4 +87,21 @@ A sequence of prompts helped me develop this feature:
 
 
 
-# Future Features
+# Future Ideas
+
+>   Add More depth and complexity to the difficulty system with more    levels 
+
+>   Add a Database to properly store data
+
+>   Add a feature to track calories
+
+>   Add online features like leaderboards and group workouts
+
+>   Make the create activity page into a smaller window that can found by clicking a button in the create workout page with the aim to   
+    simplify the process of cration
+
+> Medals rewarded to the user based on workouts done
+
+# Known Bugs
+
+>   When selected High difficulty rest times are longer making it easier instead of harder (and vise versa)

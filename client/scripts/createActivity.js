@@ -136,7 +136,6 @@ function saveAllActivitiesToLocalStorage(allActivities) {
   console.log('All activities saved to local storage', allActivities);
 }
 
-
 // Get allActivities from local storage
 async function getActivityFromLocalStorage() {
   gl.allActivities = JSON.parse(localStorage.getItem('allActivities'));
