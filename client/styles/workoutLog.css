@@ -63,3 +63,9 @@ input[type="button"]:hover {
     margin-bottom: 10px;
     font-size: 15px;
 }
+
+hr {
+    border: none;
+    height: 5px;
+    background-color: #5C6BC0;
+}

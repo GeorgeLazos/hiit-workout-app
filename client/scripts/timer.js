@@ -28,8 +28,15 @@ function pause() {
 function myCounter() {
   if (gl.actualTime <= 0) {
     gl.activityFlag = false;
+    gl.i = gl.i + 1;
     console.log('Activity done');
     clearInterval(gl.counter);
+    if (gl.i === gl.leght) {
+      gl.desc.textContent = 'Workout Done';
+      gl.pauseButton.style.display = 'none';
+      gl.time.textContent = '';
+      console.log('Workout Done for good');
+    }
   } else if (!gl.pauseFlag) {
     gl.time.textContent = gl.actualTime;
     gl.actualTime--;
@@ -64,6 +71,8 @@ async function initialiseActivity() {
     }
   }
 
+  gl.i = 0;
+  gl.leght = gl.workout.activities.length;
   gl.pauseButton.style.display = 'inline-block';
   gl.activityFlag = false;
   for (const activity of gl.workout.activities) {

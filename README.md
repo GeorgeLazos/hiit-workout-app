@@ -30,7 +30,7 @@
 Error Handling to ensure correct data are inputted by the user.
 
 ### Start a Workout
-- Start a Workouot : In the landing page is the Start a workout section there the user can select a workout and its difficulty(from 3 levels) and Press Start to begin the selected workout this will start the timer and take him to a seperate "timer page" where the user does the workout selected there he has the ability to pause or leave the workout whenever he wants. I decided to add the start Workout in the landing page as its the main feature of the application and i wanted to make access to it easy.Error Handling to ensure correct data are inputted by the user.
+- Start a Workouot : In the landing page is the Start a workout section there the user can select a workout and its difficulty(from 3 levels) and Press Start to begin the selected workout this will start the timer and take him to a seperate "timer page" where the user does the workout selected there he has the ability to pause or leave the workout whenever he wants. I decided to add the start Workout in the landing page as its the main feature of the application and i wanted to make access to it easy.Error Handling to ensure correct data are inputted by the user.Also when the workout ends the page changes to direct the user back to the main menu.
 
 ### Past Workouts
 - Past Workouts : If the user clicks on the Past Workouts button in the main page he will be taken to another page where he will see a counter tracking the amount of workouts he has done and below a list of all Workouts done in order.I decided to add this feature as i think it motivates the user and enchances their experiance it is also a stepping stone and makes it easy to add rewards like medas for amount of workouts done
