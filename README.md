@@ -6,7 +6,6 @@
 ![JavaScript](https://img.shields.io/badge/JavaScript-ES6-F7DF1E?logo=javascript&logoColor=black)
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=white)
-![Status](https://img.shields.io/badge/status-active-success.svg)
 
 > A lightweight High-Intensity Interval Training (HIIT) web app that lets users build their own activities, compose them into workouts, run them with a guided timer, and review their training history.
 
