@@ -1,107 +1,160 @@
-# HIIT up2106696
+# HIIT Workout App
 
-# Installation
-1. Unzip the up2106696.zip folder
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+![Node.js](https://img.shields.io/badge/Node.js-18%2B-339933?logo=node.js&logoColor=white)
+![Express](https://img.shields.io/badge/Express-4.x-000000?logo=express&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-ES6-F7DF1E?logo=javascript&logoColor=black)
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=white)
+![Status](https://img.shields.io/badge/status-active-success.svg)
 
-2. Open in editor
+> A lightweight High-Intensity Interval Training (HIIT) web app that lets users build their own activities, compose them into workouts, run them with a guided timer, and review their training history.
 
-3. Open terminal 
+Built as a full‑stack JavaScript project with a vanilla HTML/CSS/JS front end and a Node.js + Express back end.
 
-3. Install the npm dependencies in the terminal:
+---
 
-   `npm install` and if needed `npm run setup`
+## Table of Contents
 
-4. Start the application in the terminal:
+- [About](#about)
+- [Key Features](#key-features)
+- [Tech Stack](#tech-stack)
+- [Project Structure](#project-structure)
+- [Installation](#installation)
+- [Usage](#usage)
+- [AI Assistance](#ai-assistance)
+- [Future Ideas](#future-ideas)
+- [Known Bugs](#known-bugs)
+- [License](#license)
 
-    `npm start`
+---
 
-5. Open your browser and go to:
+## About
 
-    `http://localhost:8080`
+The HIIT Workout App is designed to make interval training simple and customisable. Users can:
 
+- Define their own **activities** (name, duration, optional notes).
+- Combine activities into reusable **workouts**.
+- Run a workout at one of three **difficulty levels**, with a built‑in timer that handles work and rest intervals.
+- Track **past workouts** to stay motivated.
 
-## Key features  
+The goal is to provide a clean, distraction‑free training experience that runs entirely in the browser, with the server providing persistence and routing.
+
+## Key Features
 
 ### Create Activity
-- Create an Activity :  You can create your own Activity from scratch by clicking on the "Create Activity" button. There you can create new activities that can be used in workouts  by inputing a name, duration  and optionally notes for the activity. In the same page you will find below a list of all activities that exist and the ability to delete them at will. Error Handling to ensure correct data are inputted by the user.
+Build activities from scratch via the **Create Activity** page by entering a name, duration, and optional notes. The page lists all existing activities and lets you delete any of them. Input validation prevents invalid data from being saved.
 
-### Create a Workout3
-- Create a Workout :  You can create your own Workouts from scratch by clicking on the "Create Workout" button. There you can create new workouts by inputing a name, choosing some activities  and optionally notes for the workout. In the same page you will find below a list of all activities that exist and the ability to delete them at will. The user selects whitch activities he wants on his new Workout by clicking any activity button in the Activities section to add it to the workout, similarly he can click on any activity button displayied in the New Workout Section to remove it , i choose this design choice as it is simple and easy to use thus providing a better experiance for the user.
-Error Handling to ensure correct data are inputted by the user.
+### Create a Workout
+Compose workouts from your activity library on the **Create Workout** page. Click an activity in the *Activities* list to add it to your new workout, or click it again in the *New Workout* section to remove it — a tap‑to‑add / tap‑to‑remove design chosen for speed and simplicity. Validation ensures workouts have a name and at least one activity.
 
 ### Start a Workout
-- Start a Workouot : In the landing page is the Start a workout section there the user can select a workout and its difficulty(from 3 levels) and Press Start to begin the selected workout this will start the timer and take him to a seperate "timer page" where the user does the workout selected there he has the ability to pause or leave the workout whenever he wants. I decided to add the start Workout in the landing page as its the main feature of the application and i wanted to make access to it easy.Error Handling to ensure correct data are inputted by the user.Also when the workout ends the page changes to direct the user back to the main menu.
+The landing page hosts the **Start a Workout** section — chosen as the home‑screen feature because it is the app's primary use case. Pick a workout, choose one of three difficulty levels, and press **Start**. You are taken to a dedicated timer page where you can pause or quit at any time. When the workout finishes, the page redirects you back to the main menu.
 
 ### Past Workouts
-- Past Workouts : If the user clicks on the Past Workouts button in the main page he will be taken to another page where he will see a counter tracking the amount of workouts he has done and below a list of all Workouts done in order.I decided to add this feature as i think it motivates the user and enchances their experiance it is also a stepping stone and makes it easy to add rewards like medas for amount of workouts done
+The **Past Workouts** page shows a counter of completed workouts and a chronological list of every workout finished. This is intended both as a motivator and as a foundation for future achievements such as medals or streaks.
 
-## AI
-In js I used AI for debugging mainly around the way the timer works with the setInterval() and the delay() fucntion in timer.js, i also used ai to further understand how to code in js with github copilots explain feature as this is my first attempt coding in js
+## Tech Stack
 
-In css I used AI to understand how to Highlight buttons when the cursor is above them.
+| Layer    | Technology                          |
+|----------|-------------------------------------|
+| Frontend | HTML5, CSS3, Vanilla JavaScript     |
+| Backend  | Node.js, Express 4                  |
+| Tooling  | ESLint (`eslint-config-portsoc`)    |
 
-### Prompts for timer
-A sequence of prompts helped me develop this feature:
+## Project Structure
 
->  How does setInterval() work
+```
+workout_app/
+├── client/         # Front-end assets
+│   ├── images/
+│   ├── pages/      # HTML pages
+│   ├── scripts/    # Client-side JS (timer, page logic)
+│   └── styles/     # CSS stylesheets
+├── server/
+│   └── server.js   # Express server entry point
+├── package.json
+├── LICENSE
+└── README.md
+```
 
-    The setInterval() function is a method in JavaScript that calls a function or evaluates an expression at specified intervals (in milliseconds). It will continue calling the function until clearInterval() is called or the window is closed.
-    Here's a basic usage of setInterval():
+## Installation
 
-    let intervalID = setInterval(myFunction, 3000);
+**Prerequisites:** [Node.js](https://nodejs.org/) 18 or later and npm.
 
-    function myFunction() {
-    // This code will run every 3 seconds
-    console.log("Hello, World!");
-    }
+1. Clone the repository:
+   ```bash
+   git clone <repository-url>
+   cd workout_app
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+   If needed:
+   ```bash
+   npm run setup
+   ```
+3. Start the application:
+   ```bash
+   npm start
+   ```
+4. Open your browser and navigate to:
+   ```
+   http://localhost:8080
+   ```
 
-    In this example, myFunction is the function to be executed, and 3000 is the time interval between each execution in milliseconds (so 3 seconds in this case). The setInterval() function returns an interval ID, which can be used later with clearInterval(intervalID) to stop the function from executing.
+## Usage
 
+1. From the landing page, create at least one **Activity**.
+2. Combine activities into a **Workout**.
+3. Select the workout, pick a difficulty level, and press **Start**.
+4. Follow the on‑screen timer through each interval — pause or exit at any time.
+5. Visit **Past Workouts** to review your history.
 
->  How does the setTimeout() work
+## AI Assistance
 
-    The setTimeout() function in JavaScript is used to schedule a function or a specific block of code to be executed after a specified time. The time is in milliseconds.
+This project was developed with selective AI assistance, primarily for learning JavaScript (a first‑time language for the author at the time of writing).
 
-    Here's a basic example:
+- **JavaScript** — used to debug the timer logic around `setInterval()` and the `delay()` function in `timer.js`, and to learn JS syntax via GitHub Copilot's *Explain* feature.
+- **CSS** — used to learn how to highlight buttons on hover.
 
-    setTimeout(function() {
-    console.log("This message will be logged after 2 seconds");
-    }, 2000);
+<details>
+<summary>Example prompt sequences</summary>
 
-    In this example, the first argument to setTimeout is a function. This function will be executed after the delay specified by the second argument (2000 milliseconds, or 2 seconds).
+**Timer prompts**
 
-    It's important to note that setTimeout doesn't pause the execution of the rest of the code. It simply schedules the function to run later. The rest of your code will continue to execute while the timer is counting down.
+> *How does setInterval() work?*
+>
+> `setInterval()` repeatedly calls a function at a fixed delay (in ms) and returns an interval ID that can be passed to `clearInterval()` to stop it.
 
-### Prompts for css
+> *How does setTimeout() work?*
+>
+> `setTimeout()` schedules a function to run once after a given delay (in ms). It is non‑blocking — surrounding code continues to execute while the timer counts down.
 
->  How can i amke a button highlighted when i hover over it
+**CSS prompts**
 
-    You can use the :hover pseudo-class in CSS to change the style of a button when you hover over it. Here's an example:
+> *How can I make a button highlighted when I hover over it?*
+>
+> Use the `:hover` pseudo‑class to change `background-color` and `color` on hover.
 
-    input[type="button"]:hover {
-    background-color: #007BFF; 
-    color: #ffffff;
-    }
+</details>
 
-    In this example, when you hover over a button, the background color will change to #007BFF (a shade of blue) and the text color will change to white.
+## Future Ideas
 
+- More granular difficulty system with additional levels.
+- Persistent database storage in place of in‑memory data.
+- Calorie tracking.
+- Online features: leaderboards and group workouts.
+- Inline activity creation from within the workout builder, via a modal.
+- Achievement medals based on workouts completed.
 
+## Known Bugs
 
-# Future Ideas
+- On **High** difficulty, rest periods are longer than on lower difficulties — making sessions easier rather than harder (and vice versa).
 
->   Add More depth and complexity to the difficulty system with more    levels 
+## License
 
->   Add a Database to properly store data
+This project is released under the [MIT License](LICENSE).
 
->   Add a feature to track calories
-
->   Add online features like leaderboards and group workouts
-
->   Make the create activity page into a smaller window that can found by clicking a button in the create workout page with the aim to   
-    simplify the process of cration
-
-> Medals rewarded to the user based on workouts done
-
-# Known Bugs
-
->   When selected High difficulty rest times are longer making it easier instead of harder (and vise versa)
+© 2026 Georgios Lazos
