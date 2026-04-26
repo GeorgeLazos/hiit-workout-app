@@ -1,0 +1,40 @@
+:root {
+    font-family: sans-serif;
+    text-align: center;
+    
+    
+    --pad: 1rem;
+    --rad: calc(var(--pad) / 2);
+    --halfrad: calc(var(--rad) / 2);
+}
+
+body {
+    justify-content: center;
+    align-items: center;
+    background-color: #cccccc;
+    padding: 20px;
+    color: #333;
+}
+
+h1 {
+    text-align: center;
+    color: #000000;
+    margin-bottom: 100px;
+}
+
+input[type="button"] {
+    display: inline-block;
+    margin: 0 10px;
+    padding: 10px 20px;
+    font-size: 1em;
+    color: #ffffff;
+    background-color: #5C6BC0;
+    border: 5px solid #5C6BC0;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+input[type="button"]:hover {
+    background-color: #CCCCCC;
+    color: #000000;
+}

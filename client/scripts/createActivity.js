@@ -1,131 +1,171 @@
-"use strict";
+'use strict';
 
-//function to display an activity
+// Global variables and elements
+const gl = {};
+
+// function to display an activity
 function displayActivity(activity) {
-    const newActivity = document.createElement('div');
+  const newActivity = document.createElement('div');
+  newActivity.className = 'showActivity';
 
-    const title = document.createElement('p');
-    title.textContent = activity.title;
+  const title = document.createElement('h3');
+  title.className = 'showTitle';
+  title.textContent = activity.title;
 
-    const duration = document.createElement('p');
-    duration.textContent = activity.duration;
+  const duration = document.createElement('p');
+  duration.textContent = `Duration : ${activity.duration}`;
+  duration.className = 'showDuration';
 
-    const desc = document.createElement('p');
-    desc.textContent = activity.desc;
+  const desc = document.createElement('p');
+  desc.className = 'showDesc';
+  desc.textContent = `Notes : ${activity.desc}`;
 
-    newActivity.append(title, duration, desc);
+  const deleteButton = document.createElement('button');
+  deleteButton.className = 'deleteButton';
+  deleteButton.textContent = 'Delete';
+  deleteButton.addEventListener('click', () => {
+    if (confirm('Are you sure you want to delete this workout?')) {
+      deleteActivity(activity);
+      newActivity.remove();
+    }
+  });
 
-    const div = document.querySelector('#activityList');;
-    div.append(newActivity);
+  newActivity.append(title, duration, desc, deleteButton);
+  gl.activityList.append(newActivity);
 }
 
-//Check if activity has any input errors
+// function to add an activity to allActivities
+function addActivity(activity) {
+  gl.allActivities.push(activity);
+  saveAllActivitiesToLocalStorage(gl.allActivities);
+  console.log('Activity added', activity);
+}
+
+// function to delete an activity from allActivities
+function deleteActivity(activity) {
+  gl.allActivities = gl.allActivities.filter(act => act !== activity);
+  saveAllActivitiesToLocalStorage(gl.allActivities);
+  gl.error.style.color = 'red';
+  gl.error.textContent = 'Activity deleted successfully';
+  console.log('Activity deleted', activity);
+}
+
+// function to create an activity
+function createActivity(title, duration, desc) {
+  if (checkError(title, duration)) {
+    console.log('Error: Activity not created');
+    return;
+  }
+  const newActivity = {
+    title,
+    duration,
+    desc,
+  };
+  addActivity(newActivity);
+  displayActivity(newActivity);
+}
+
+// Check if activity has any input errors
 function checkError(title, duration) {
+  gl.error.style.color = 'red';
 
-    if (title === '') {
-        el.error.textContent = 'Error: Activity does not have a title';
-        return true;
-    }
-    if (duration === '') {
-        el.error.textContent = 'Error: Activity does not have a duration';
-        return true;
-    }
-    if (isNaN(duration) || duration < 0) {
-        el.error.textContent = 'Error: Duration must be a non-negative number';
-        return true;
-    }
-    if (el.allActivities.some(activity => activity.title === title)) {
-        el.error.textContent = 'Error: Activity already exists';
-        return true;
-    }
-    el.error.textContent = '';
-    return false;
+  if (title === '') {
+    gl.error.textContent = 'Error: Activity does not have a title';
+    return true;
+  }
+  if (duration === '') {
+    gl.error.textContent = 'Error: Activity does not have a duration';
+    return true;
+  }
+  if (isNaN(duration) || duration <= 0) {
+    gl.error.textContent = 'Error: Duration must be a positive number';
+    return true;
+  }
+  if (gl.allActivities.some(activity => activity.title === title)) {
+    gl.error.textContent = 'Error: Activity already exists';
+    return true;
+  }
+  gl.error.textContent = '';
+  return false;
 }
 
-//funtion to sendActivities
-async function sendActivitiesToServer(activity) {
-    el.allActivities.push(activity);
-    const payload = activity;
-    console.log('Payload', payload);
-
-    const response = await fetch('activities', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      });
-      
-    if (!response.ok) {
-        console.log('Failed to send workout to server');
-    }
-}
-
-//function to create an activity
-function createActivity(title, duration, desc){
-    if(checkError(title, duration)) {
-        console.log('Error: Activity not created');
-        return;
-    }
-    const newActivity  = {
-        title: title,
-        duration: duration,
-        desc: desc,
-    };
-    sendActivitiesToServer(newActivity);
-    displayActivity(newActivity);
-    el.allActivities.push(newActivity);
-}
-
-//function to create an activity from input of user
+// function to create an activity from input of user
 function createActivityFromInput() {
-    const title = el.actTitle.value;
-    const duration = el.actDuration.value;
-    const desc = el.actDesc.value;
-    if (!checkError(title, duration, desc)) {
-        createActivity(title, duration, desc);
-    }
+  gl.error.textContent = '';
+  const title = gl.actTitle.value;
+  const duration = gl.actDuration.value;
+  const desc = gl.actDesc.value;
+  if (!checkError(title, duration, desc)) {
+    createActivity(title, duration, desc);
+    gl.error.style.color = 'green';
+    gl.actTitle.value = '';
+    gl.actDuration.value = '';
+    gl.actDesc.value = '';
+    gl.error.textContent = 'Activity created successfully';
+  }
 }
 
-//function to add event listeners
+// function to add event listeners
 function addEventListeners() {
-    el.submit.addEventListener('click', () => createActivityFromInput());
-    el.back.addEventListener('click', () => { window.location.href = '/';});
-    el.createWorkout.addEventListener('click', () => { window.location = '/createWorkout';});
+  gl.submit.addEventListener('click', () => createActivityFromInput());
+  gl.back.addEventListener('click', () => { window.location.href = '/'; });
+  gl.createWorkout.addEventListener('click', () => { window.location = '/createWorkout'; });
 }
 
-//function to display all activities
+// function to display allactivities
 function displayAllActivities() {
-    el.allActivities.forEach(activity => displayActivity(activity));
+  gl.allActivities.forEach(activity => displayActivity(activity));
 }
 
-//function to prepare handles
-function prepareHandles() {
-    el.submit = document.querySelector('#activitySubmit');
-    el.back = document.querySelector('#back');
-    el.error = document.querySelector('#error');
-    el.actTitle = document.querySelector('#actTitle');
-    el.actDuration = document.querySelector('#actDuration');
-    el.actDesc = document.querySelector('#actDesc');
-    el.createWorkout = document.querySelector('#createWorkout');
+// function to load allactivities
+async function loadActivities() {
+  const response = await fetch('activities');
+  if (response.ok) {
+    const allActivities = await response.json();
+    saveAllActivitiesToLocalStorage(allActivities);
+    console.log('All activities recieved from server', allActivities);
+    return allActivities;
+  } else {
+    console.log('failed to load activities');
+  }
 }
 
-//function to load all existing activities
-async function loadActivities() {  
-    const response = await fetch('activities');
-    if (response.ok) {
-        const allActivities = await response.json();
-        console.log('All activities', allActivities);
-        return allActivities;
-    } else {
-        console.log('failed to load activities');} 
+// Save allActivities to local storage
+function saveAllActivitiesToLocalStorage(allActivities) {
+  localStorage.setItem('allActivities', JSON.stringify(allActivities));
+  console.log('All activities saved to local storage', allActivities);
 }
 
-//function to initialize the page
+// Get allActivities from local storage
+async function getActivityFromLocalStorage() {
+  gl.allActivities = JSON.parse(localStorage.getItem('allActivities'));
+  if (gl.allActivities === null) {
+    gl.allActivities = await loadActivities();
+  } else {
+    console.log('All activities recieved from local storage', gl.allActivities);
+  }
+}
+
+// function to prepare handles
+async function prepareHandles() {
+  await getActivityFromLocalStorage();
+  gl.submit = document.querySelector('#activitySubmit');
+  gl.back = document.querySelector('#back');
+  gl.error = document.querySelector('#error');
+  gl.actTitle = document.querySelector('#actTitle');
+  gl.actDuration = document.querySelector('#actDuration');
+  gl.actDesc = document.querySelector('#actDesc');
+  gl.createWorkout = document.querySelector('#createWorkout');
+  gl.activityList = document.querySelector('#activityList');
+}
+
+// function to initialize the page
 async function init() {
-    el.allActivities = await loadActivities();
-    prepareHandles();
-    displayAllActivities();
-    addEventListeners();
+  await prepareHandles();
+  displayAllActivities();
+  addEventListeners();
 }
 
-const el = {};
 init();
+
+//* allActivities : An array of all activities

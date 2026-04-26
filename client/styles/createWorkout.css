@@ -1,0 +1,95 @@
+:root{
+    font-family: sans-serif;
+    text-align: center;
+    box-sizing: border-box;
+    
+    --pad: 1rem;
+    --rad: calc(var(--pad) / 2);
+    --halfrad: calc(var(--rad) / 2);
+} 
+
+body {
+    background-color: #cccccc;
+    padding: 20px;
+    color: #333;
+}
+
+h1 {
+    text-align: center;
+    color: #000000;
+}
+
+input[type="button"] {
+    display: block;
+    width: 100%;
+    height: 40px;
+    margin: 20px 0;
+    font-size: 18px;
+    color: #ffffff;
+    background-color: #5C6BC0;
+    border: 5px solid #5C6BC0;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+input[type="button"]:hover {
+    background-color: #CCCCCC;
+    color: #000000;
+}
+
+hr {
+    border: none;
+    height: 5px;
+    background-color: #5C6BC0;
+}
+
+#workoutForm {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin: 20px;
+}
+
+#workoutTitle, #workoutNote {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 300px;
+    font-size: 1.2em;
+}
+
+.activityButton {
+    font-size: 0.8em;
+    padding: 5px 10px;
+    margin: 5px;
+}
+
+#showWorkout {
+    padding: 10px;
+    background-color: #ffffff;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    width: 50%;
+    margin: auto;
+    margin-bottom: 20px;
+}
+
+#showWorkout h3 {
+    color: #5C6BC0;
+    font-size: 25px;
+    margin-bottom: 10px;
+}
+
+#showWorkout p {
+    font-size: 15px;
+    margin-bottom: 20px;
+}
+
+#showWorkout ol {
+    padding-left: 20px;
+}
+
+#showWorkout li {
+    margin-bottom: 10px;
+    font-size: 15px;
+}

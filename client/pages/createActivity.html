@@ -1,17 +1,23 @@
 <!DOCTYPE html>
+
 <html>
 <head>
     <title>Create Activity</title>
     <script src="../scripts/createActivity.js" defer></script>
+    <link rel="stylesheet" href="../styles/createActivity.css">
+    <link rel="icon" href="../images/icon.ico">
 </head>
 <body>
-    <input type="text" id="actTitle" name="actTitle" placeholder="Enter Activity title here">
-    <input type="number" id="actDuration" name="actDuration" placeholder="Duration">
-    <input type="text" id="actDesc" name="actDesc" placeholder="Enter Activity descriction here">
-    <input type="button" value="Create Activity" id="activitySubmit">
+    <input type="button" value="Main Menu" id="back">
     <input type="button" value="Create Workout" id="createWorkout">
-    <input type="button" value="Back to Menu" id="back">
+    <hr>
+    <input type="text" id="actTitle" name="actTitle" placeholder="Enter Activity title">
+    <input type="number" id="actDuration" name="actDuration" placeholder="Enter Activity duration">
+    <input type="text" id="actDesc" name="actDesc" placeholder="Enter Activity descriction ">
+    <input type="button" value="Create Activity" id="activitySubmit">
     <p id="error" style="color: red;"></p>
+    <hr>
+    <h2>Activities</h2>
     <div id="activityList" name="activityList"></div>
 </body>
 </html>

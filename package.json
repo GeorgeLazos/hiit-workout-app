@@ -1,15 +1,42 @@
 {
-  "name": "up2106696-web-cw",
+  "name": "hiit-workout-app",
   "version": "1.0.0",
-  "description": "",
+  "description": "A lightweight HIIT (High-Intensity Interval Training) web app for creating custom activities, composing them into workouts, running them with a guided timer, and tracking past sessions. Built with vanilla HTML/CSS/JS on the front end and Node.js + Express on the back end.",
   "main": "server.js",
+  "keywords": [
+    "hiit",
+    "workout",
+    "fitness",
+    "timer",
+    "interval-training",
+    "exercise",
+    "training",
+    "health",
+    "web-app",
+    "express",
+    "nodejs",
+    "javascript",
+    "vanilla-js",
+    "full-stack"
+  ],
   "scripts": {
     "start": "cd server && node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "up2106696",
-  "license": "ISC",
+  "author": "Georgios Lazos",
+  "license": "MIT",
   "dependencies": {
     "express": "^4.18.3"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "eslint-config-portsoc": "^1.0.1"
+  },
+  "eslintConfig": {
+    "extends": "portsoc",
+    "root": true,
+    "env": {
+      "browser": true
+    }
   }
 }
