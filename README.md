@@ -83,8 +83,8 @@ workout_app/
 
 1. Clone the repository:
    ```bash
-   git clone <repository-url>
-   cd workout_app
+   git clone https://github.com/GeorgeLazos/hiit-workout-app.git
+   cd hiit-workout-app
    ```
 2. Install dependencies:
    ```bash
